@@ -1,35 +1,37 @@
 
+import java.lang.reflect.Array;
 import java.util.*;
 
+
+// is not Done
 public class Find_Running_Median {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         int n = in.nextInt();
-        MinHeap minHeap = new MinHeap();
-        MaxHeap maxHeap = new MaxHeap();
         int[] a = new int[n];
-        for (int a_i = 0; a_i < n; a_i++) {
-            a[a_i] = (in.nextInt());
-        }
-        System.out.println();
-        for (int a_i = 0; a_i < n; a_i++) {
-            minHeap.add(a[a_i]);
-            maxHeap.add(a[a_i]);
+        MinHeap minHeap = new MinHeap(n);
+        MaxHeap maxHeap = new MaxHeap(n);
+        for(int a_i=0; a_i < n; a_i++){
+            int s = in.nextInt();
+            minHeap.add(s);
+            maxHeap.add(s);
             double max = maxHeap.peek();
             double min = minHeap.peek();
-            System.out.println(max + "+" + min + "=" + ((max + min) / 2));
-
+            System.out.println(Arrays.toString(minHeap.heap));
+            System.out.println(Arrays.toString(maxHeap.heap));
+            if(maxHeap.size%2==0)
+                System.out.println((max + min) / 2);
+            else
+                System.out.println((double) minHeap.heap[Math.round(minHeap.size/2)]);
         }
-
     }
-
     public static class MinHeap {
         int[] heap;
         int size;
         int capacity;
 
-        public MinHeap() {
-            this.heap = new int[10];
+        public MinHeap(int maxSize) {
+            this.heap = new int[maxSize];
             this.size = 0;
             this.capacity = 10;
         }
@@ -127,8 +129,7 @@ public class Find_Running_Median {
         }
 
         public void print() {
-            for (int i = 0; i < this.heap.length; i++)
-                System.out.print(this.heap[i] + ",");
+            Arrays.stream(this.heap).mapToObj(i1 -> i1 + ",").forEach(System.out::print);
             System.out.println();
         }
     }
@@ -138,8 +139,8 @@ public class Find_Running_Median {
         int size;
         int capacity;
 
-        public MaxHeap() {
-            this.heap = new int[10];
+        public MaxHeap(int maxSize) {
+            this.heap = new int[maxSize];
             this.size = 0;
             this.capacity = 10;
         }
